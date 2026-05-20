@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mai mulți pacienți pentru cabinetul tău · Web Design Stomatologie</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;1,300;1,700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+:root {
+  --white:   #FFFFFF;
+  --black:   #0A0A0A;
+  --gray:    #F5F5F3;
+  --border:  #E8E8E4;
+  --muted:   #6B6B65;
+  --green:   #1A5C3A;
+  --green-h: #22754A;
+  --lime:    #C8F0D8;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  background: var(--white);
+  color: var(--black);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── SHARED ── */
+.serif { font-family: 'Fraunces', serif; }
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+.tag::before {
+  content:'';
+  display:block;
+  width:24px; height:1px;
+  background: currentColor;
+  opacity:.5;
+}
+
+h2 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(40px, 4.5vw, 72px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -.02em;
+}
+
+.body-text {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 200;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 56px;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-brand {
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--black);
+  letter-spacing: -.01em;
+}
+.nav-brand span { color: var(--green); }
+
+.nav-btn {
+  background: var(--green);
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  letter-spacing: .03em;
+  transition: background .2s;
+}
+.nav-btn:hover { background: var(--green-h); }
+
+/* ── HERO — WHITE ── */
+.hero {
+  background: var(--white);
+  padding: 148px 56px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-headline {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(56px, 6vw, 96px);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -.03em;
+  color: var(--black);
+  margin-bottom: 32px;
+}
+.hero-headline em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--green);
+}
+
+.hero-sub {
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--muted);
+  font-weight: 300;
+  max-width: 460px;
+  margin-bottom: 48px;
+}
+
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--black);
+  color: #fff;
+  padding: 16px 32px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-decoration: none;
+  transition: background .2s, gap .2s;
+}
+.btn-dark:hover { background: var(--green); gap: 20px; }
+
+.btn-dark svg, .btn-green svg { flex-shrink:0; transition: transform .2s; }
+.btn-dark:hover svg, .btn-green:hover svg { transform: translateX(4px); }
+
+.hero-right {
+  background: var(--black);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.serp-head {
+  background: #161616;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #2a2a2a;
+}
+.dot { width:10px; height:10px; border-radius:50%; }
+.d1{background:#FF5F57;} .d2{background:#FEBC2E;} .d3{background:#28C840;}
+
+.serp-url {
+  margin-left:8px;
+  background: #222;
+  border-radius:3px;
+  padding: 4px 12px;
+  font-size:12px;
+  color:#555;
+  font-family: monospace;
+  flex:1;
+}
+
+.serp-body { padding: 20px; display:flex; flex-direction:column; gap:3px; }
+
+.serp-row {
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:14px 16px;
+  border-radius:6px;
+  border: 1px solid transparent;
+}
+.serp-row.top {
+  background: #0e2a1c;
+  border-color: #1a5c3a;
+}
+
+.serp-rank {
+  font-size:11px;
+  font-weight:600;
+  color: #3d8c5e;
+  padding-top:2px;
+  min-width:18px;
+  font-family:'Inter',sans-serif;
+}
+.serp-row:not(.top) .serp-rank { color:#333; }
+
+.serp-name {
+  font-size:14px;
+  font-weight:500;
+  color:#fff;
+  margin-bottom:3px;
+}
+.serp-row:not(.top) .serp-name { color:#444; }
+
+.serp-meta {
+  font-size:12px;
+  color:#3d8c5e;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.serp-row:not(.top) .serp-meta { color:#333; }
+
+.badge-live {
+  background:#1a5c3a;
+  color: var(--lime);
+  font-size:10px;
+  font-weight:600;
+  padding:2px 8px;
+  border-radius:20px;
+  letter-spacing:.05em;
+}
+
+.serp-caption {
+  padding:16px 20px;
+  border-top:1px solid #1e1e1e;
+  font-size:13px;
+  color:#555;
+  line-height:1.5;
+}
+.serp-caption strong { color: #3d8c5e; font-weight:500; }
+
+/* hero stats */
+.hero-stats {
+  grid-column: 1/-1;
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  border-top: 1px solid var(--border);
+  padding-top: 48px;
+  gap: 0;
+}
+
+.stat-item {
+  padding-right: 48px;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right:none; padding-right:0; padding-left:48px; }
+.stat-item:nth-child(2) { padding-left:48px; }
+
+.stat-num {
+  font-family:'Fraunces',serif;
+  font-size:56px;
+  font-weight:700;
+  line-height:1;
+  color:var(--black);
+  margin-bottom:8px;
+}
+
+.stat-label {
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* ── PROBLEM — BLACK ── */
+.problem-section {
+  background: var(--black);
+  color: #fff;
+  padding: 100px 56px;
+}
+
+.problem-section .tag { color: #555; }
+.problem-section .tag::before { background:#555; }
+
+.problem-section h2 { color:#fff; margin-bottom:64px; max-width:600px; }
+
+.problem-grid {
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 1px;
+  background: #1e1e1e;
+  border: 1px solid #1e1e1e;
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.problem-card {
+  background: var(--black);
+  padding: 48px 40px;
+  transition: background .25s;
+}
+.problem-card:hover { background:#0f0f0f; }
+
+.prob-num {
+  font-family:'Fraunces',serif;
+  font-size:64px;
+  font-weight:700;
+  color: #1e1e1e;
+  line-height:1;
+  margin-bottom:24px;
+  transition: color .25s;
+}
+.problem-card:hover .prob-num { color: #1a5c3a; }
+
+.prob-title {
+  font-size:18px;
+  font-weight:500;
+  color:#fff;
+  margin-bottom:14px;
+  line-height:1.35;
+}
+
+.prob-body {
+  font-size:14px;
+  color:#666;
+  line-height:1.75;
+}
+
+/* ── SERVICES — WHITE ── */
+.services-section {
+  background: var(--white);
+  padding: 100px 56px;
+  border-bottom: 1px solid var(--border);
+}
+
+.services-section h2 { margin-bottom:64px; }
+
+.services-grid {
+  display:grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.service-card {
+  background: var(--white);
+  padding: 48px 44px;
+  display:grid;
+  grid-template-columns: 48px 1fr;
+  gap: 0 24px;
+  align-items:start;
+  transition: background .25s;
+}
+.service-card:hover { background: var(--gray); }
+
+.service-icon {
+  width:48px; height:48px;
+  background: var(--gray);
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  flex-shrink:0;
+}
+
+.service-title {
+  font-size:18px;
+  font-weight:500;
+  color:var(--black);
+  margin-bottom:10px;
+  line-height:1.3;
+}
+
+.service-body {
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.75;
+}
+
+/* ── PROOF — GRAY ── */
+.proof-section {
+  background: var(--gray);
+  padding: 100px 56px;
+  border-bottom: 1px solid var(--border);
+}
+
+.proof-inner {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+
+.browser {
+  background: var(--black);
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow: 0 32px 64px rgba(0,0,0,.15);
+}
+
+.browser-bar {
+  background:#1a1a1a;
+  padding:12px 16px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border-bottom:1px solid #2a2a2a;
+}
+
+.browser-url {
+  flex:1;
+  margin-left:8px;
+  background:#111;
+  border-radius:3px;
+  padding:4px 12px;
+  font-size:11px;
+  font-family:monospace;
+  color:#444;
+}
+
+.browser-body { padding:24px; }
+
+.mock-section {
+  background:#111;
+  border-radius:6px;
+  padding:20px;
+  margin-bottom:12px;
+}
+
+.mock-line {
+  height:7px;
+  border-radius:2px;
+  background:#222;
+  margin-bottom:8px;
+}
+.mock-line:last-child { margin-bottom:0; }
+.ml-90{width:90%;} .ml-70{width:70%;} .ml-50{width:50%;} .ml-35{width:35%;}
+.ml-green { background: rgba(26,92,58,.6); width:40%; }
+.ml-btn { height:28px; width:130px; background:rgba(26,92,58,.4); border-radius:3px; margin-top:12px; }
+
+.mock-cards {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+}
+.mock-card {
+  background:#111;
+  border-radius:6px;
+  padding:14px;
+}
+
+.proof-tag {
+  position:absolute;
+}
+
+.proof-text .tag { margin-bottom:24px; }
+.proof-text h2 { margin-bottom:24px; }
+.proof-text p {
+  font-size:16px;
+  line-height:1.8;
+  color:var(--muted);
+  margin-bottom:36px;
+}
+
+.link-underline {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--black);
+  text-decoration:none;
+  border-bottom:1.5px solid var(--black);
+  padding-bottom:4px;
+  transition: color .2s, border-color .2s, gap .2s;
+}
+.link-underline:hover { color:var(--green); border-color:var(--green); gap:16px; }
+
+/* ── PRICING — BLACK ── */
+.pricing-section {
+  background: var(--black);
+  color:#fff;
+  padding: 100px 56px;
+}
+
+.pricing-section .tag { color:#444; }
+.pricing-section .tag::before { background:#444; }
+.pricing-section h2 { color:#fff; margin-bottom:16px; }
+
+.pricing-sub {
+  font-size:17px;
+  color:#666;
+  margin-bottom:64px;
+  font-weight:300;
+  max-width:480px;
+  line-height:1.7;
+}
+
+.pricing-card {
+  background:#111;
+  border:1px solid #222;
+  border-radius:10px;
+  padding:56px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:64px;
+  align-items:start;
+}
+
+.price-left {}
+
+.price-tag {
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#3d8c5e;
+  margin-bottom:20px;
+}
+
+.price-big {
+  font-family:'Fraunces',serif;
+  font-size:96px;
+  font-weight:700;
+  line-height:1;
+  color:#fff;
+  letter-spacing:-.03em;
+}
+
+.price-big sup {
+  font-size:36px;
+  vertical-align:super;
+  font-weight:300;
+}
+
+.price-note {
+  font-size:13px;
+  color:#444;
+  margin-top:10px;
+  line-height:1.5;
+}
+
+.guarantee {
+  margin-top:32px;
+  background:#0a0a0a;
+  border:1px solid #1a1a1a;
+  border-left:3px solid #1a5c3a;
+  padding:20px 24px;
+  border-radius:0 6px 6px 0;
+}
+
+.guarantee strong {
+  font-size:12px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#3d8c5e;
+  display:block;
+  margin-bottom:6px;
+  font-weight:500;
+}
+
+.guarantee p {
+  font-size:13px;
+  color:#555;
+  line-height:1.6;
+}
+
+.price-features {
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-bottom:40px;
+}
+
+.pf {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:15px;
+  color:#ccc;
+  font-weight:300;
+}
+
+.pf-check {
+  width:20px; height:20px;
+  border-radius:50%;
+  background: rgba(26,92,58,.3);
+  border: 1px solid rgba(61,140,94,.4);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  color:#3d8c5e;
+  flex-shrink:0;
+}
+
+.btn-green {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  background: var(--green);
+  color:#fff;
+  padding:18px 36px;
+  border-radius:4px;
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:.04em;
+  text-decoration:none;
+  transition: background .2s, gap .2s;
+  width:100%;
+}
+.btn-green:hover { background:var(--green-h); gap:20px; }
+
+/* ── CONTACT — WHITE ── */
+.contact-section {
+  background: var(--white);
+  padding: 100px 56px;
+  border-top:1px solid var(--border);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:start;
+}
+
+.contact-left {}
+.contact-left .tag { margin-bottom:24px; }
+.contact-left h2 { margin-bottom:24px; }
+.contact-left p { font-size:16px; line-height:1.8; color:var(--muted); margin-bottom:48px; }
+
+.contact-links { display:flex; flex-direction:column; }
+
+.contact-link {
+  display:flex;
+  align-items:center;
+  gap:20px;
+  padding:20px 0;
+  border-bottom:1px solid var(--border);
+  text-decoration:none;
+  color:var(--black);
+  transition: color .2s;
+}
+.contact-link:first-of-type { border-top:1px solid var(--border); }
+.contact-link:hover { color:var(--green); }
+
+.cl-icon {
+  width:44px; height:44px;
+  background:var(--gray);
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  flex-shrink:0;
+}
+
+.cl-lbl {
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:2px;
+}
+
+.cl-val {
+  font-size:16px;
+  font-weight:400;
+}
+
+.cl-arrow {
+  margin-left:auto;
+  font-size:20px;
+  color:var(--border);
+  transition: color .2s, transform .2s;
+}
+.contact-link:hover .cl-arrow { color:var(--green); transform:translateX(4px); }
+
+/* audit box */
+.audit-box {
+  background:var(--gray);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:48px;
+}
+
+.audit-title {
+  font-family:'Fraunces',serif;
+  font-size:28px;
+  font-weight:700;
+  line-height:1.2;
+  margin-bottom:12px;
+  color:var(--black);
+}
+
+.audit-box > p {
+  font-size:15px;
+  color:var(--muted);
+  line-height:1.7;
+  margin-bottom:36px;
+}
+
+.audit-steps { display:flex; flex-direction:column; gap:20px; }
+
+.astep {
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+}
+
+.astep-num {
+  width:28px; height:28px;
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:500;
+  color:var(--muted);
+  flex-shrink:0;
+}
+
+.astep p {
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.65;
+  padding-top:4px;
+}
+
+/* ── FOOTER ── */
+footer {
+  background:var(--black);
+  border-top:1px solid #1e1e1e;
+  padding:28px 56px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:12px;
+  color:#444;
+  letter-spacing:.05em;
+}
+
+/* ── REVEAL ── */
+.rv {
+  opacity:0;
+  transform:translateY(18px);
+  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+}
+.rv.on { opacity:1; transform:none; }
+.rv-d1 { transition-delay:.08s; }
+.rv-d2 { transition-delay:.16s; }
+.rv-d3 { transition-delay:.24s; }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav { padding:0 24px; }
+  .hero { grid-template-columns:1fr; padding:120px 24px 64px; gap:48px; }
+  .hero-right { display:none; }
+  .hero-stats { grid-template-columns:1fr 1fr; }
+  .stat-item:last-child { grid-column:1/-1; padding-left:0; border-right:none; border-top:1px solid var(--border); padding-top:32px; margin-top:0; }
+  .problem-section, .services-section, .proof-section, .pricing-section { padding:80px 24px; }
+  .problem-grid, .services-grid { grid-template-columns:1fr; }
+  .proof-inner { grid-template-columns:1fr; gap:48px; }
+  .pricing-card { grid-template-columns:1fr; gap:48px; padding:36px; }
+  .contact-section { grid-template-columns:1fr; gap:56px; padding:80px 24px; }
+  footer { flex-direction:column; gap:8px; padding:24px; text-align:center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Web<span>.</span>Dental</div>
+  <a href="#contact" class="nav-btn">Audit gratuit</a>
+</nav>
+
+<!-- ── HERO (WHITE) ── -->
+<section class="hero">
+  <div class="rv">
+    <div class="tag">Servicii digitale · Cabinete stomatologice</div>
+    <h1 class="hero-headline">Pacienții<br>caută.<br><em>Te găsesc?</em></h1>
+    <p class="hero-sub">În fiecare zi, zeci de oameni din orașul tău caută pe Google un dentist. Dacă nu apari, merg la concurență — fără să știi că i-ai pierdut.</p>
+    <a href="#contact" class="btn-dark">
+      Analiză gratuită
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+
+  <div class="hero-right rv rv-d1">
+    <div class="serp-head">
+      <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
+      <div class="serp-url">google.com · dentist [orașul tău]</div>
+    </div>
+    <div class="serp-body">
+      <div class="serp-row top">
+        <div class="serp-rank">#1</div>
+        <div>
+          <div class="serp-name">Cabinetul tău stomatologic <span class="badge-live">SITE OPTIMIZAT</span></div>
+          <div class="serp-meta">★★★★★ 4.9 · 47 recenzii · Deschis acum · 0.4 km</div>
+        </div>
+      </div>
+      <div class="serp-row">
+        <div class="serp-rank">#2</div>
+        <div>
+          <div class="serp-name">Concurent A</div>
+          <div class="serp-meta">★★★☆☆ 3.1 · 6 recenzii</div>
+        </div>
+      </div>
+      <div class="serp-row">
+        <div class="serp-rank">#3</div>
+        <div>
+          <div class="serp-name">Concurent B</div>
+          <div class="serp-meta">Fără site · Fără recenzii</div>
+        </div>
+      </div>
+    </div>
+    <div class="serp-caption">Primul rezultat primește <strong>peste 60% din clicuri</strong>. Locul 4 nu există pentru pacienți.</div>
+  </div>
+
+  <div class="hero-stats rv rv-d2">
+    <div class="stat-item">
+      <div class="stat-num">78%</div>
+      <div class="stat-label">din pacienți caută online înainte să sune</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">5</div>
+      <div class="stat-label">zile până la site-ul tău live</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0</div>
+      <div class="stat-label">lei dacă nu ești mulțumit de rezultat</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROBLEM (BLACK) ── -->
+<section class="problem-section">
+  <div class="tag rv">Problema</div>
+  <h2 class="rv rv-d1">De ce pierzi pacienți<br>fără să știi</h2>
+  <div style="height:64px;"></div>
+  <div class="problem-grid rv rv-d2">
+    <div class="problem-card">
+      <div class="prob-num">01</div>
+      <div class="prob-title">Nu apăreți în căutările locale</div>
+      <p class="prob-body">Fără optimizare Google Business, cabinetul tău este invizibil pentru pacienții care caută chiar acum în orașul tău.</p>
+    </div>
+    <div class="problem-card">
+      <div class="prob-num">02</div>
+      <div class="prob-title">Site-ul nu funcționează pe telefon</div>
+      <p class="prob-body">Peste 70% din căutări se fac de pe mobil. Un site neadaptat respinge pacienții înainte să citească un cuvânt.</p>
+    </div>
+    <div class="problem-card">
+      <div class="prob-num">03</div>
+      <div class="prob-title">Informațiile esențiale lipsesc</div>
+      <p class="prob-body">Program, servicii, prețuri, locație. Dacă un pacient nu le găsește în 10 secunde, sună la altcineva.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES (WHITE) ── -->
+<section class="services-section">
+  <div class="tag rv">Ce primești</div>
+  <h2 class="rv rv-d1">Un pachet complet.<br>Gata în 5 zile.</h2>
+  <div style="height:64px;"></div>
+  <div class="services-grid rv rv-d2">
+    <div class="service-card">
+      <div class="service-icon">🌐</div>
+      <div>
+        <div class="service-title">Site de prezentare profesional</div>
+        <p class="service-body">Design modern, curat, adaptat cabinetului tău. Servicii, prețuri, program și locație — tot ce caută un pacient, structurat clar.</p>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📍</div>
+      <div>
+        <div class="service-title">Optimizare Google Business</div>
+        <p class="service-body">Profilul tău pe Maps complet și optimizat. Apari în harta locală cu program, recenzii și distanță față de pacient.</p>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📱</div>
+      <div>
+        <div class="service-title">Design 100% responsive</div>
+        <p class="service-body">Funcționează perfect pe orice dispozitiv. Pacienții pot suna sau găsi adresa cu un singur tap, direct de pe telefon.</p>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔍</div>
+      <div>
+        <div class="service-title">SEO local de bază</div>
+        <p class="service-body">Titluri, descrieri și structură optimizate pentru ca Google să știe cine ești, unde ești și ce oferi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROOF (GRAY) ── -->
+<section class="proof-section">
+  <div class="proof-inner">
+    <div class="rv" style="position:relative;">
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
+          <div class="browser-url">majestic-final.vercel.app</div>
+        </div>
+        <div class="browser-body">
+          <div class="mock-section">
+            <div class="mock-line ml-green"></div>
+            <div class="mock-line ml-90"></div>
+            <div class="mock-line ml-70"></div>
+            <div class="mock-line ml-50"></div>
+            <div class="mock-line ml-btn"></div>
+          </div>
+          <div class="mock-cards">
+            <div class="mock-card">
+              <div class="mock-line ml-90"></div>
+              <div class="mock-line ml-70"></div>
+              <div class="mock-line ml-50"></div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-line ml-70"></div>
+              <div class="mock-line ml-90"></div>
+              <div class="mock-line ml-50"></div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-line ml-50"></div>
+              <div class="mock-line ml-70"></div>
+              <div class="mock-line ml-90"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="proof-text rv rv-d1">
+      <div class="tag">Proiect real</div>
+      <h2>Am livrat deja pentru o afacere locală</h2>
+      <p>Am construit site-ul pentru Majestic Clean Self-Wash din Focșani — de la zero, design modern, optimizare Google. Același proces, aceeași calitate, acum pentru cabinete stomatologice.</p>
+      <a href="https://majestic-final.vercel.app" target="_blank" class="link-underline">
+        Vezi proiectul live
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING (BLACK) ── -->
+<section class="pricing-section">
+  <div class="tag rv">Investiție</div>
+  <h2 class="rv rv-d1">Preț clar.<br>Zero surprize.</h2>
+  <p class="pricing-sub rv rv-d2">Preț de lansare pentru primele cabinete. Plătești după ce vezi rezultatul — nu înainte.</p>
+  <div class="pricing-card rv rv-d3">
+    <div class="price-left">
+      <div class="price-tag">Pachet complet · Preț lansare</div>
+      <div class="price-big"><sup>€</sup>150</div>
+      <p class="price-note">sau echivalent în lei<br>Plată după livrare</p>
+      <div class="guarantee">
+        <strong>Garanție completă</strong>
+        <p>Dacă nu ești mulțumit de ce livrăm, nu plătești nimic. Simplu.</p>
+      </div>
+    </div>
+    <div>
+      <div class="price-features">
+        <div class="pf"><span class="pf-check">✓</span>Site de prezentare complet</div>
+        <div class="pf"><span class="pf-check">✓</span>Optimizare Google Business</div>
+        <div class="pf"><span class="pf-check">✓</span>Design responsive mobil</div>
+        <div class="pf"><span class="pf-check">✓</span>SEO local de bază</div>
+        <div class="pf"><span class="pf-check">✓</span>Program, servicii, prețuri</div>
+        <div class="pf"><span class="pf-check">✓</span>Formular de contact</div>
+        <div class="pf"><span class="pf-check">✓</span>Suport 30 zile post-lansare</div>
+      </div>
+      <a href="#contact" class="btn-green">
+        Solicită audit gratuit
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT (WHITE) ── -->
+<section class="contact-section" id="contact">
+  <div class="contact-left rv">
+    <div class="tag">Contact</div>
+    <h2>Hai să vedem situația ta concretă</h2>
+    <p>Îți fac gratuit o analiză a prezenței online a cabinetului — îți arăt exact câți oameni caută lunar un dentist în orașul tău și de ce nu ajung la tine.</p>
+    <div class="contact-links">
+      <a href="tel:+40700000000" class="contact-link">
+        <div class="cl-icon">📞</div>
+        <div>
+          <div class="cl-lbl">Telefon</div>
+          <div class="cl-val">+40 700 000 000</div>
+        </div>
+        <span class="cl-arrow">→</span>
+      </a>
+      <a href="https://wa.me/40700000000" class="contact-link">
+        <div class="cl-icon">💬</div>
+        <div>
+          <div class="cl-lbl">WhatsApp</div>
+          <div class="cl-val">Scrie-mi un mesaj</div>
+        </div>
+        <span class="cl-arrow">→</span>
+      </a>
+    </div>
+  </div>
+  <div class="audit-box rv rv-d1">
+    <div class="audit-title">Ce include auditul gratuit</div>
+    <p>O analiză de 10 minute în care îți arăt exact unde ești și ce pierzi lunar.</p>
+    <div class="audit-steps">
+      <div class="astep">
+        <span class="astep-num">1</span>
+        <p>Caut cabinetul tău pe Google și Maps — îți arăt cum apari acum față de concurență</p>
+      </div>
+      <div class="astep">
+        <span class="astep-num">2</span>
+        <p>Verific câți oameni caută lunar un dentist în orașul tău</p>
+      </div>
+      <div class="astep">
+        <span class="astep-num">3</span>
+        <p>Îți spun ce ar trebui schimbat și ce impact concret ar avea</p>
+      </div>
+      <div class="astep">
+        <span class="astep-num">4</span>
+        <p>Dacă vrei să continuăm — discutăm. Dacă nu — informația e a ta, fără nicio obligație</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Web Design · Cabinete Stomatologice · România 2025</span>
+  <span>Toate drepturile rezervate</span>
+</footer>
+
+<script>
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+window.addEventListener('scroll', () => {
+  document.querySelector('nav').style.borderBottomColor = window.scrollY > 10 ? '#e8e8e4' : 'transparent';
+});
+</script>
+</body>
+</html>
